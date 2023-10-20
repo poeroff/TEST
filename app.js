@@ -1,7 +1,5 @@
 
-
 async function sendHttpRequest(method, url) {
-    
     try {
         const response = await fetch(url, {
             method: method,
@@ -17,26 +15,28 @@ async function sendHttpRequest(method, url) {
             const data = await response.json();
             return data;
         }
-
     }
     catch (err) {
         throw new Error("EOREORWEOREO")
-
     }
 }
-
-
 async function fetchpost(value) {
     const responseData = await sendHttpRequest('GET', 'https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1')
+    console.log(responseData)
+
     for (const data of responseData.results) {
         const postTemplate = document.querySelector(".posts");
         const postli = document.createElement("div");
+
 
         postli.className = "movie-card"
         postli.id = data.id
 
         const postimg = document.createElement("img");
         postimg.src = "https://image.tmdb.org/t/p/w500" + data.backdrop_path
+
+        const score = document.createElement("p");
+        score.textContent =   `⭐  ${data.vote_average}`; 
 
         const posth3 = document.createElement("h3")
         posth3.textContent = data.original_title
@@ -45,22 +45,18 @@ async function fetchpost(value) {
         postp.textContent = data.overview
 
         postli.appendChild(postimg)
+        
         postli.appendChild(posth3)
+        posth3.appendChild(score)
         postli.appendChild(postp)
         postTemplate.appendChild(postli)
         
         postli.addEventListener("click", event => {
             alert("MOVIE ID: " + data.id)
         })
-
-
     }
 
 }
-
-fetchpost();
-
-
 function handlerSearch(event) {
     event.preventDefault();
     const inputElement = document.getElementById("search-input");
@@ -68,7 +64,6 @@ function handlerSearch(event) {
     filter(searchValue)
     
 }
-
 function filter(search){
     const card = document.querySelectorAll(".movie-card")
     card.forEach((filter) => {
@@ -83,7 +78,7 @@ function filter(search){
     })
 }
 
-
+fetchpost();
 
 
 
