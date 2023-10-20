@@ -1,4 +1,3 @@
-
 async function sendHttpRequest(method, url) {
     try {
         const response = await fetch(url, {
@@ -24,7 +23,7 @@ async function fetchpost(value) {
     const responseData = await sendHttpRequest('GET', 'https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1')
     console.log(responseData)
 
-    for (const data of responseData.results) {
+    responseData.results.forEach ( data => {
         const postTemplate = document.querySelector(".posts");
         const postli = document.createElement("div");
 
@@ -54,7 +53,7 @@ async function fetchpost(value) {
         postli.addEventListener("click", event => {
             alert("MOVIE ID: " + data.id)
         })
-    }
+    });
 
 }
 function handlerSearch(event) {
@@ -79,6 +78,7 @@ function filter(search){
 }
 
 fetchpost();
+
 
 
 
